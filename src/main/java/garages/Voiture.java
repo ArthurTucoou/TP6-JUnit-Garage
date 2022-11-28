@@ -29,9 +29,12 @@ public class Voiture {
 	 */
 	public void entreAuGarage(Garage g) throws Exception {
 		// Et si la voiture est déjà dans un garage ?
-
+		if (this.estDansUnGarage() == true) {
+			throw new UnsupportedOperationException("Voiture déjà dans un garage !");
+		} else {
 		Stationnement s = new Stationnement(this, g);
 		myStationnements.add(s);
+		}
 	}
 
 	/**
@@ -52,6 +55,7 @@ public class Voiture {
 	 */
 	public Set<Garage> garagesVisites() {
 		// TODO: Implémenter cette méthode
+		// return this.myStationnements().toArray();
 		throw new UnsupportedOperationException("Pas encore implémenté");
 	}
 
@@ -60,8 +64,14 @@ public class Voiture {
 	 */
 	public boolean estDansUnGarage() {
 		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+
 		// Vrai si le dernier stationnement est en cours
+		int last = myStationnements.size() - 1;
+		if (last >= 0) {
+		if (myStationnements.get(last).estEnCours()) {
+			return true;
+		} else {return false;}
+		} else {return false;}
 	}
 
 	/**

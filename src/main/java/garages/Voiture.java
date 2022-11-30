@@ -7,6 +7,7 @@ public class Voiture {
 
 	private final String immatriculation;
 	private final List<Stationnement> myStationnements = new LinkedList<>();
+	private final Set<Garage> myGarages = new HashSet<>();
 
 	public Voiture(String i) {
 		if (null == i) {
@@ -34,6 +35,7 @@ public class Voiture {
 		} else {
 		Stationnement s = new Stationnement(this, g);
 		myStationnements.add(s);
+		myGarages.add(g);
 		}
 	}
 
@@ -44,8 +46,17 @@ public class Voiture {
 	 * @throws java.lang.Exception si la voiture n'est pas dans un garage
 	 */
 	public void sortDuGarage() throws Exception {
-		throw new UnsupportedOperationException("Pas encore implémenté");
 		// TODO: Implémenter cette méthode
+		if (this.estDansUnGarage() == false) {
+			throw new UnsupportedOperationException("Voiture n'est pas dans un garage !");
+		} else {
+			int last = myStationnements.size() - 1;
+			if (last >= 0) {
+			if (myStationnements.get(last).estEnCours()) {
+				myStationnements.get(last).terminer();
+			}
+		}
+		}
 		// Trouver le dernier stationnement de la voiture
 		// Terminer ce stationnement
 	}
@@ -55,8 +66,7 @@ public class Voiture {
 	 */
 	public Set<Garage> garagesVisites() {
 		// TODO: Implémenter cette méthode
-		// return this.myStationnements().toArray();
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		return myGarages;
 	}
 
 	/**
@@ -92,7 +102,19 @@ public class Voiture {
 	 */
 	public void imprimeStationnements(PrintStream out) {
 		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+
+		String impression = "";
+        for(Garage g : this.garagesVisites()) {
+            impression += "\n" + g.toString();
+            for(Stationnement s : this.myStationnements) {
+                if (s.getGarage() == g) {
+                    impression += "\n    " + s.toString();
+					System.out.print(impression);
+                }
+            }
+        }
+
+        out.println(impression);
 	}
 
 }
